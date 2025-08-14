@@ -6,111 +6,32 @@ on:
 
 jobs:
   build-android:
-    uses: ./.github/workflows/build-mobile.yml
+    uses: ./.github/workflows/common/build-mobile.yml
     with:
       platform: android
       run-tests: true
 
   build-ios:
-    uses: ./.github/workflows/build-mobile.yml
+    uses: ./.github/workflows/common/build-mobile.yml
     with:
       platform: ios
       run-tests: false
 
   lint-and-typecheck:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: TypeScript check
-        run: npx tsc --noEmit
-
-      - name: Check Expo configuration
-        run: npx expo doctor
+    uses: ./.github/workflows/common/lint-typecheck.yml
 
   deploy-android:
     needs: [build-android, lint-and-typecheck]
-    runs-on: ubuntu-latest
-    environment: production
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Setup Expo CLI
-        run: npm install -g @expo/cli
-
-      - name: Setup EAS CLI
-        run: npm install -g eas-cli
-
-      - name: Authenticate with Expo
-        run: expo login --non-interactive
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-
-      - name: Build and Submit Android to Google Play
-        run: |
-          echo "Building and submitting Android app to Google Play Store..."
-          eas build --platform android --auto-submit --non-interactive
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-          GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
+    uses: ./.github/workflows/common/deploy-android.yml
+    secrets:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+      GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
 
   deploy-ios:
     needs: [build-ios, lint-and-typecheck]
-    runs-on: ubuntu-latest
-    environment: production
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Setup Expo CLI
-        run: npm install -g @expo/cli
-
-      - name: Setup EAS CLI
-        run: npm install -g eas-cli
-
-      - name: Authenticate with Expo
-        run: expo login --non-interactive
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-
-      - name: Build and Submit iOS to App Store
-        run: |
-          echo "Building and submitting iOS app to App Store..."
-          eas build --platform ios --auto-submit --non-interactive
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
-          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+    uses: ./.github/workflows/common/deploy-ios.yml
+    secrets:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+      APPLE_ID: ${{ secrets.APPLE_ID }}
+      APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
