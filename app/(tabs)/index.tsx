@@ -1,10 +1,23 @@
 import { StyleSheet } from 'react-native';
+import { useEffect } from 'react';
 
 import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
 import { ThemeSwitcher } from '@/components/ThemeSwitcher';
+import { AnalyticsService, AnalyticsEvents } from '@/services/analytics';
 
 export default function TabOneScreen() {
+  useEffect(() => {
+    // Log screen view when component mounts
+    AnalyticsService.setCurrentScreen('TabOne', 'TabOneScreen');
+
+    // Log a custom event
+    AnalyticsService.logEvent(AnalyticsEvents.SCREEN_VIEW, {
+      screen_name: 'TabOne',
+      screen_class: 'TabOneScreen'
+    });
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tab One</Text>
