@@ -6,30 +6,30 @@ on:
 
 jobs:
   build-android:
-    uses: ./.github/workflows/common/build-mobile.yml
+    uses: ./.github/workflows/reusable-build-mobile.yml
     with:
       platform: android
       run-tests: true
 
   build-ios:
-    uses: ./.github/workflows/common/build-mobile.yml
+    uses: ./.github/workflows/reusable-build-mobile.yml
     with:
       platform: ios
       run-tests: false
 
   lint-and-typecheck:
-    uses: ./.github/workflows/common/lint-typecheck.yml
+    uses: ./.github/workflows/reusable-lint-typecheck.yml
 
   deploy-android:
     needs: [build-android, lint-and-typecheck]
-    uses: ./.github/workflows/common/deploy-android.yml
+    uses: ./.github/workflows/reusable-deploy-android.yml
     secrets:
       EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
       GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
 
   deploy-ios:
     needs: [build-ios, lint-and-typecheck]
-    uses: ./.github/workflows/common/deploy-ios.yml
+    uses: ./.github/workflows/reusable-deploy-ios.yml
     secrets:
       EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
       APPLE_ID: ${{ secrets.APPLE_ID }}

@@ -6,16 +6,16 @@ on:
 
 jobs:
   build-android:
-    uses: ./.github/workflows/common/build-mobile.yml
+    uses: ./.github/workflows/reusable-build-mobile.yml
     with:
       platform: android
       run-tests: true
 
   build-ios:
-    uses: ./.github/workflows/common/build-mobile.yml
+    uses: ./.github/workflows/reusable-build-mobile.yml
     with:
       platform: ios
       run-tests: false
 
   lint-and-typecheck:
-    uses: ./.github/workflows/common/lint-typecheck.yml
+    uses: ./.github/workflows/reusable-lint-typecheck.yml
