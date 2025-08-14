@@ -1,0 +1,64 @@
+name: Build Mobile Apps
+
+on:
+  workflow_call:
+    inputs:
+      platform:
+        required: true
+        type: string
+        description: "Platform to build (android or ios)"
+      run-tests:
+        required: false
+        type: boolean
+        default: true
+        description: "Whether to run tests"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Setup Expo CLI
+        run: npm install -g @expo/cli
+
+      - name: Setup EAS CLI
+        run: npm install -g eas-cli
+
+      - name: Verify Expo installation
+        run: expo --version
+
+      - name: Build Android
+        if: inputs.platform == 'android'
+        run: |
+          echo "Building Android app..."
+          npx expo export --platform android
+          echo "Android build completed successfully"
+
+      - name: Build iOS
+        if: inputs.platform == 'ios'
+        run: |
+          echo "Building iOS app..."
+          npx expo export --platform ios
+          echo "iOS build completed successfully"
+
+      - name: Run tests
+        if: inputs.run-tests
+        run: npm test -- --coverage --watchAll=false
+
+      - name: Upload coverage reports
+        if: inputs.run-tests && inputs.platform == 'android'
+        uses: codecov/codecov-action@v3
+        with:
+          fail_ci_if_error: false
