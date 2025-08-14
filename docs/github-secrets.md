@@ -14,6 +14,10 @@ This document outlines the required GitHub secrets for automated deployment to b
   - Create a service account in Google Cloud Console
   - Download the JSON key file
   - Copy the entire JSON content as the secret value
+- **`GOOGLE_SERVICES_JSON`**: Firebase Google Services configuration (JSON content)
+  - Download from Firebase Console > Project Settings > General > Your apps > Download google-services.json
+  - Copy the entire JSON content as the secret value
+  - This file is created during the build process and never committed to the repository
 
 ### iOS (Apple App Store)
 - **`APPLE_ID`**: Your Apple ID email address

@@ -23,7 +23,9 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.mobileapptemplate.app"
+      "package": "com.mobileapptemplate.app",
+      "versionCode": 2,
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "bundler": "metro",
@@ -36,6 +38,12 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "df7ab712-1efa-44b8-8f51-6fb368ee4568"
+      }
     }
   }
 }
