@@ -37,6 +37,11 @@ jobs:
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
+      - name: Configure Android credentials
+        run: eas credentials --platform android --non-interactive
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+
       - name: Build and Submit Android to Google Play
         run: |
           echo "Building and submitting Android app to Google Play Store..."

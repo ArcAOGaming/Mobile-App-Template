@@ -41,6 +41,11 @@ jobs:
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
+      - name: Configure iOS credentials
+        run: eas credentials --platform ios --non-interactive
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+
       - name: Build and Submit iOS to App Store
         run: |
           echo "Building and submitting iOS app to App Store..."
