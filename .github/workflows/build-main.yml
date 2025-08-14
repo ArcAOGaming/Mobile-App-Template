@@ -22,14 +22,14 @@ jobs:
     uses: ./.github/workflows/reusable-lint-typecheck.yml
 
   deploy-android:
-    needs: [test, build-android, lint-and-typecheck]
+    needs: [test, build-android, build-ios, lint-and-typecheck]
     uses: ./.github/workflows/reusable-deploy-android.yml
     secrets:
       EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
       GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
 
   deploy-ios:
-    needs: [test, build-ios, lint-and-typecheck]
+    needs: [test, build-android, build-ios, lint-and-typecheck]
     uses: ./.github/workflows/reusable-deploy-ios.yml
     secrets:
       EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
