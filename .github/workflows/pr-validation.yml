@@ -5,17 +5,18 @@ on:
     branches: [main]
 
 jobs:
+  test:
+    uses: ./.github/workflows/reusable-test.yml
+
   build-android:
     uses: ./.github/workflows/reusable-build-mobile.yml
     with:
       platform: android
-      run-tests: true
 
   build-ios:
     uses: ./.github/workflows/reusable-build-mobile.yml
     with:
       platform: ios
-      run-tests: false
 
   lint-and-typecheck:
     uses: ./.github/workflows/reusable-lint-typecheck.yml

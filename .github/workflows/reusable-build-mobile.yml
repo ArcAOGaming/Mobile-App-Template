@@ -7,11 +7,6 @@ on:
         required: true
         type: string
         description: "Platform to build (android or ios)"
-      run-tests:
-        required: false
-        type: boolean
-        default: true
-        description: "Whether to run tests"
 
 jobs:
   build:
@@ -49,13 +44,3 @@ jobs:
           echo "Building iOS app..."
           npx expo export --platform ios
           echo "iOS build completed successfully"
-
-      - name: Run tests
-        if: inputs.run-tests
-        run: npm test -- --coverage --watchAll=false
-
-      - name: Upload coverage reports
-        if: inputs.run-tests && inputs.platform == 'android'
-        uses: codecov/codecov-action@v3
-        with:
-          fail_ci_if_error: false

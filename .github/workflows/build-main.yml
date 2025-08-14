@@ -5,30 +5,31 @@ on:
     branches: [main]
 
 jobs:
+  test:
+    uses: ./.github/workflows/reusable-test.yml
+
   build-android:
     uses: ./.github/workflows/reusable-build-mobile.yml
     with:
       platform: android
-      run-tests: true
 
   build-ios:
     uses: ./.github/workflows/reusable-build-mobile.yml
     with:
       platform: ios
-      run-tests: false
 
   lint-and-typecheck:
     uses: ./.github/workflows/reusable-lint-typecheck.yml
 
   deploy-android:
-    needs: [build-android, lint-and-typecheck]
+    needs: [test, build-android, lint-and-typecheck]
     uses: ./.github/workflows/reusable-deploy-android.yml
     secrets:
       EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
       GOOGLE_SERVICE_ACCOUNT_KEY: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_KEY }}
 
   deploy-ios:
-    needs: [build-ios, lint-and-typecheck]
+    needs: [test, build-ios, lint-and-typecheck]
     uses: ./.github/workflows/reusable-deploy-ios.yml
     secrets:
       EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
