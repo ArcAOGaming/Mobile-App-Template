@@ -1,4 +1,7 @@
-import '@react-native-async-storage/async-storage/jest/async-storage-mock';
+// Mock AsyncStorage before any imports
+jest.mock('@react-native-async-storage/async-storage', () =>
+    require('@react-native-async-storage/async-storage/jest/async-storage-mock')
+);
 
 // Mock other React Native modules that might cause issues in tests
 jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter');
