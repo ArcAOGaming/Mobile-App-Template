@@ -17,4 +17,5 @@ This is a React Native Expo Android/iOS/Web app template.
 
 - [Development Guide](docs/development.md)
 - [Deployment Guide](docs/deployment.md)
-- [Firebase Analytics Setup](docs/firebase-analytics.md)
+- [Firebase Analytics Setup](docs/firebase-analytics.md) 
+
