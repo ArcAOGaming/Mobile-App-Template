@@ -26,8 +26,9 @@ This document outlines the required GitHub secrets for automated deployment to b
   - Go to "Sign-In and Security" > "App-Specific Passwords"
 - **`APPLE_TEAM_ID`**: Your Apple Developer Team ID
   - Find in Apple Developer Console under "Membership"
-- **`ASC_APP_ID`**: App Store Connect App ID (optional, can be set in eas.json)
+- **`ASC_APP_ID`**: App Store Connect App ID
   - Found in App Store Connect for your app
+  - Required for automated submission to App Store
 
 ## Setting Up Secrets
 

@@ -11,6 +11,8 @@ on:
         required: true
       APPLE_TEAM_ID:
         required: true
+      ASC_APP_ID:
+        required: true
 
 jobs:
   deploy-ios:
@@ -41,6 +43,16 @@ jobs:
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
 
+      - name: Configure iOS credentials
+        run: |
+          echo "Configuring iOS credentials..."
+          eas credentials:configure --platform ios --non-interactive
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+
       - name: Build and Submit iOS to App Store
         run: |
           echo "Building and submitting iOS app to App Store..."
@@ -50,3 +62,4 @@ jobs:
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          ASC_APP_ID: ${{ secrets.ASC_APP_ID }}
